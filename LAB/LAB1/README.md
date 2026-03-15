@@ -15,7 +15,7 @@ Task: Configure the system state immediately after the bootloader hands over con
 Task: Implement serial communication by directly accessing UART memory-mapped registers.
 - Status Polling: Check line status flags to determine if the transmitter is empty or if data is available to read.
 - I/O Functions: Implement basic get_char() and put_char() logic.
-- Refer to sections 6.2 and 16.3 of https://github.com/nycu-caslab/OSC2026/raw/main/references/K1_User_Manual_(V6.1_2025.08.06).pdf for base addresses and register layouts.
+- Refer to sections 6.2 and 16.3 of [Soc User Manual](https://github.com/nycu-caslab/OSC2026/raw/main/references/K1_User_Manual_(V6.1_2025.08.06).pdf) for base addresses and register layouts.
 
 ## Simple Shell
 Task: Create a minimal interactive interface via the UART connection.
