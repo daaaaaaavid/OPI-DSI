@@ -7,7 +7,7 @@ QEMU ?= qemu-system-riscv64
 TARGET = kernel
 
 build: clean
-	$(CC) $(CFLAGS) -c start.S main.c
+	$(CC) $(CFLAGS) -c start.S *.c
 	$(LD) -T link.ld -o $(TARGET).elf *.o
 	$(OBJCOPY) -O binary $(TARGET).elf $(TARGET)
 

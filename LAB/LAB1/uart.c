@@ -1,11 +1,11 @@
-#define UART_BASE  0xD4017000UL  // 0x10000000UL D4017300UL check address
-#define UART_RBR  (unsigned char*)(UART_BASE + 0x0) //kryboard to cpu (read)
-#define UART_THR  (unsigned char*)(UART_BASE + 0x0) //cpu to screen (write)
-#define UART_LSR  (unsigned char*)(UART_BASE + 0x14) //state 
-/*#define UART_BASE 0x10000000UL
+// #define UART_BASE  0xD4017000UL  // 0x10000000UL D4017300UL check address
+// #define UART_RBR  (unsigned char*)(UART_BASE + 0x0) //kryboard to cpu (read)
+// #define UART_THR  (unsigned char*)(UART_BASE + 0x0) //cpu to screen (write)
+// #define UART_LSR  (unsigned char*)(UART_BASE + 0x14) //state 
+#define UART_BASE 0x10000000UL
 #define UART_RBR  (unsigned char*)(UART_BASE + 0x0)
 #define UART_THR  (unsigned char*)(UART_BASE + 0x0)
-#define UART_LSR  (unsigned char*)(UART_BASE + 0x5)*/
+#define UART_LSR  (unsigned char*)(UART_BASE + 0x5)
 #define LSR_DR    (1 << 0) //if 1 ,Data Ready in RBR
 #define LSR_TDRQ  (1 << 5) //if 1 ,thr empty
 
