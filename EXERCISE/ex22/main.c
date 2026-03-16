@@ -51,11 +51,69 @@ static int align(int n, int byte) {
 }
 
 void initrd_list(const void* rd) {
-    // TODO: Implement this function
+    const char* p = (const char*)rd;
+
+    while (1) {
+        struct cpio_t* header = (struct cpio_t*)p;
+        
+        // 1. Verify Magic Number
+        if (strncmp(header->magic, "070701", 6) != 0) {
+            break; 
+        }
+
+        // 2. Parse lengths
+        int namesize = hextoi(header->namesize, 8);
+        int filesize = hextoi(header->filesize, 8);
+
+        // 3. Extract Filename
+        const char* filename = p + sizeof(struct cpio_t);
+        
+        // Stop if we hit the trailer
+        if (strcmp(filename, "TRAILER!!!") == 0) {
+            break;
+        }
+
+        printf("%s\n", filename);
+
+        // 4. Move to next record
+        // p + header + filename + padding + file_content + padding
+        int next_offset = sizeof(struct cpio_t) + namesize;
+        next_offset = align(next_offset, 4);
+        next_offset += filesize;
+        next_offset = align(next_offset, 4);
+        
+        p += next_offset;
+    }
 }
 
 void initrd_cat(const void* rd, const char* filename) {
-    // TODO: Implement this function
+    const char* p = (const char*)rd;
+
+    while (1) {
+        struct cpio_t* header = (struct cpio_t*)p;
+        
+        if (strncmp(header->magic, "070701", 6) != 0) break;
+
+        int namesize = hextoi(header->namesize, 8);
+        int filesize = hextoi(header->filesize, 8);
+        const char* current_filename = p + sizeof(struct cpio_t);
+
+        if (strcmp(current_filename, "TRAILER!!!") == 0) break;
+
+        // Check if this is the file we want
+        if (strcmp(current_filename, filename) == 0) {
+            const char* content = p + align(sizeof(struct cpio_t) + namesize, 4);
+            // Use %.*s to print non-null terminated file data safely
+            printf("File: %s, Size: %d bytes\n", filename, filesize); // This prints the number
+            printf("%.*s\n", filesize, content);                     // This prints the "NYCU" art
+            return;
+        }
+
+        // Move to next record
+        int next_offset = align(sizeof(struct cpio_t) + namesize, 4) + align(filesize, 4);
+        p += next_offset;
+    }
+    printf("File '%s' not found.\n", filename);
 }
 
 int main() {
